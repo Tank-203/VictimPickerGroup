@@ -63,7 +63,7 @@ public class VictimPickerPanel extends JPanel {
         JPanel timerPanel = new JPanel();
         // Create and configure the main panel
         this.setLayout(new BorderLayout());
-        this.add(new JLabel("Victim: ", SwingConstants.LEFT), BorderLayout.NORTH);
+//        this.add(new JLabel("Victim: ", SwingConstants.LEFT), BorderLayout.NORTH);
 
         // Add this panel to the JFrame
         frame.setContentPane(this);
@@ -125,20 +125,41 @@ public class VictimPickerPanel extends JPanel {
 
     private void setUpFileGUI() {
         JButton button = new JButton("Pick Victim(s)");
-        button.setBounds(5, 5, 15, 10);
-        this.add(button, BorderLayout.LINE_START);
+        JPanel pickerPanel = new JPanel();
+        pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
+        pickerPanel.add(button);
+        this.add(pickerPanel, BorderLayout.CENTER);
+        button.setBounds(40, 20, 10, 10);
+        JLabel label = new JLabel();
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel victim = new JLabel();
+        pickerPanel.add(label);
+        pickerPanel.add(victim);
         button.addActionListener(e -> {
             twoVictims = victimPicker.chooseTwo();
-            System.out.println(twoVictims.getFirst().getName() + " " + twoVictims.getLast().getName());
+            label.setText("The victim is: ");
+            victim.setText(twoVictims.getFirst().getName());
         });
 
     }
 
     private void setUpTextGUI() {
-        JButton button = new JButton("Text Button was here");
-        this.add(button, BorderLayout.NORTH);
-        JTextField textField = new JTextField(20);
-        this.add(textField);
+        JButton button = new JButton("Pick Victim(s)");
+        JPanel pickerPanel = new JPanel();
+        pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
+        pickerPanel.add(button);
+        this.add(pickerPanel, BorderLayout.CENTER);
+        button.setBounds(40, 20, 10, 10);
+        JLabel label = new JLabel();
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel victim = new JLabel();
+        pickerPanel.add(label);
+        pickerPanel.add(victim);
+        button.addActionListener(e -> {
+            twoVictims = victimPicker.chooseTwo();
+            label.setText("The victim is: ");
+            victim.setText(twoVictims.getFirst().getName());
+        });
     }
 
     public void loadListFromFile() {
