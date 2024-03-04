@@ -148,6 +148,28 @@ public class VictimPickerPanel extends JPanel {
             victim.setText(twoVictims.getFirst().getName());
         });
 
+        JButton absentButton = new JButton("Mark Absent");
+        pickerPanel.add(absentButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        absentButton.addActionListener(e->{
+            victimPicker.markAbsent(twoVictims.getFirst());
+        });
+
+        JButton addpointButton = new JButton("Add Point");
+        pickerPanel.add(addpointButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        addpointButton.addActionListener(e->{
+            victimPicker.score(1);
+        });
+
+        JButton subpointButton = new JButton("Subtract Point");
+        pickerPanel.add(subpointButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        subpointButton.addActionListener(e->{
+            victimPicker.score(-1);
+        });
+
+
     }
 
     private void setUpTextGUI() {
@@ -189,6 +211,26 @@ public class VictimPickerPanel extends JPanel {
             twoVictims = victimPicker.chooseTwo();
             label.setText("The victim is: ");
             victim.setText(twoVictims.getFirst().getName());
+        });
+        JButton absentButton = new JButton("Mark Absent");
+        pickerPanel.add(absentButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        absentButton.addActionListener(e->{
+            victimPicker.markAbsent(twoVictims.getFirst());
+        });
+
+        JButton addpointButton = new JButton("Add Point");
+        pickerPanel.add(addpointButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        addpointButton.addActionListener(e->{
+            victimPicker.score(1);
+        });
+
+        JButton subpointButton = new JButton("Subtract Point");
+        pickerPanel.add(subpointButton);
+        this.add(pickerPanel,BorderLayout.CENTER);
+        subpointButton.addActionListener(e->{
+            victimPicker.score(-1);
         });
     }
 
