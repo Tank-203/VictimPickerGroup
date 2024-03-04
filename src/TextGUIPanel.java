@@ -8,6 +8,7 @@ public class TextGUIPanel extends JPanel {
     ArrayList<Victim> victims;
     ArrayList<Victim> twoVictims;
 
+    // Similar to the FileGUIPanel but allows the user to enter manually enter names.
     public TextGUIPanel() {
         victimPicker.initializeVictim();
         JButton button = new JButton("Pick Victim(s)");
@@ -26,6 +27,7 @@ public class TextGUIPanel extends JPanel {
 
         JLabel victim = new JLabel();
 
+        // Exception that catches if no text is entered.
         victimField.setMaximumSize(victimField.getPreferredSize());
         victimDoneButton.addActionListener(e -> {
             if (victimField.getText() == null) {
@@ -48,6 +50,8 @@ public class TextGUIPanel extends JPanel {
             label.setText("The victim is: ");
             victim.setText(twoVictims.getFirst().getName());
         });
+
+        // Marks a student absent.
         JButton absentButton = new JButton("Mark Absent");
         pickerPanel.add(absentButton);
         this.add(pickerPanel,BorderLayout.CENTER);
@@ -55,18 +59,21 @@ public class TextGUIPanel extends JPanel {
             victimPicker.markAbsent(twoVictims.getFirst());
         });
 
+        // Adds a point for the current student.
         JButton addpointButton = new JButton("Add Point");
         pickerPanel.add(addpointButton);
         addpointButton.addActionListener(e->{
             victimPicker.score(twoVictims.getFirst().getName(), 1);
         });
 
+        // Subtracts a point for the current student.
         JButton subpointButton = new JButton("Subtract Point");
         pickerPanel.add(subpointButton);
         subpointButton.addActionListener(e->{
             victimPicker.score(twoVictims.getFirst().getName(), -1);
         });
 
+        // Allows a volunteer to be entered and gives the volunteer 5 points.
         JButton volunteerButton = new JButton("Volunteered");
         pickerPanel.add(volunteerButton);
         this.add(pickerPanel, BorderLayout.CENTER);

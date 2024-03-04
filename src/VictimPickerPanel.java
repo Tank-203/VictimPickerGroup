@@ -20,6 +20,7 @@ public class VictimPickerPanel extends JPanel {
 
     private boolean isFile = false;
 
+    // Constructor for the Victim Picker Panel
     public VictimPickerPanel(VictimPicker victimPicker) {
         frame = new JFrame("Victim Picker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +31,7 @@ public class VictimPickerPanel extends JPanel {
         showChoiceDialog();
     }
 
+    // Dialogue for text boxes.
     private void showChoiceDialog() {
         // Custom panel for the dialog
         JPanel dialogPanel = new JPanel();
@@ -55,6 +57,7 @@ public class VictimPickerPanel extends JPanel {
         displayMainPanel();
     }
 
+    // Panel configuration where all our buttons will be.
     private void displayMainPanel() {
         timeLabel = new JLabel();
         JPanel timerPanel = new JPanel();
@@ -88,6 +91,7 @@ public class VictimPickerPanel extends JPanel {
             }
         });
 
+        // Timer that can be dynamically altered.
         timerPanel.add(timeLabel);
         JButton timeButton = new JButton("Edit Timer");
         timerPanel.add(timeButton);
@@ -128,6 +132,7 @@ public class VictimPickerPanel extends JPanel {
         timer.start();
     }
 
+    // Allows us to change the time at any given moment.
     private void updateTimeLabel(int timeLeftInSeconds) {
         this.timeLeftInSeconds = timeLeftInSeconds;
         int minutes = timeLeftInSeconds / 60;

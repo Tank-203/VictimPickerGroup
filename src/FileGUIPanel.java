@@ -8,6 +8,7 @@ public class FileGUIPanel extends JPanel {
     ArrayList<Victim> victims;
     ArrayList<Victim> twoVictims;
 
+    // Constructor that creates buttons and text field that allows us to enter volunteer names.
     public FileGUIPanel() {
         victimPicker.loadList();
         JButton button = new JButton("Pick Victim(s)");
@@ -31,30 +32,35 @@ public class FileGUIPanel extends JPanel {
         pickerPanel.add(victim);
         pickerPanel.add(victimPanel);
 
+        // Displays the victim chosen.
         button.addActionListener(e -> {
             twoVictims = victimPicker.chooseTwo();
             label.setText("The victim is: ");
             victim.setText(twoVictims.getFirst().getName());
         });
 
+        // In case the student is absent.
         JButton absentButton = new JButton("Mark Absent");
         pickerPanel.add(absentButton);
         absentButton.addActionListener(e->{
             victimPicker.markAbsent(twoVictims.getFirst());
         });
 
+        // Adds one point to the current student.
         JButton addpointButton = new JButton("Add Point");
         pickerPanel.add(addpointButton);
         addpointButton.addActionListener(e->{
             victimPicker.score(twoVictims.getFirst().getName(), 1);
         });
 
+        // Subtracts one point from the current student.
         JButton subpointButton = new JButton("Subtract Point");
         pickerPanel.add(subpointButton);
         subpointButton.addActionListener(e->{
             victimPicker.score(twoVictims.getFirst().getName(), -1);
         });
 
+        // Allows a student to volunteer in place of another and adds 5 points for the volunteer.
         JButton volunteerButton = new JButton("Volunteered");
         pickerPanel.add(volunteerButton);
         volunteerButton.addActionListener(e -> {
