@@ -128,10 +128,12 @@ public class VictimPickerPanel extends JPanel {
     private void setUpFileGUI() {
         JButton button = new JButton("Pick Victim(s)");
         JPanel pickerPanel = new JPanel();
+        JTextField victimField = new JTextField(20);
+        JPanel victimPanel = new JPanel();
+        victimField.setMaximumSize(victimField.getPreferredSize());
 
         pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
         pickerPanel.add(button);
-        this.add(pickerPanel, BorderLayout.CENTER);
 
         button.setBounds(40, 20, 10, 10);
 
@@ -139,8 +141,11 @@ public class VictimPickerPanel extends JPanel {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel victim = new JLabel();
 
+        victimPanel.add(victimField);
+
         pickerPanel.add(label);
         pickerPanel.add(victim);
+        pickerPanel.add(victimPanel);
 
         button.addActionListener(e -> {
             twoVictims = victimPicker.chooseTwo();
@@ -150,26 +155,33 @@ public class VictimPickerPanel extends JPanel {
 
         JButton absentButton = new JButton("Mark Absent");
         pickerPanel.add(absentButton);
-        this.add(pickerPanel,BorderLayout.CENTER);
         absentButton.addActionListener(e->{
             victimPicker.markAbsent(twoVictims.getFirst());
         });
 
         JButton addpointButton = new JButton("Add Point");
         pickerPanel.add(addpointButton);
-        this.add(pickerPanel,BorderLayout.CENTER);
         addpointButton.addActionListener(e->{
-            victimPicker.score(1);
+            victimPicker.score(twoVictims.getFirst().getName(), 1);
         });
 
         JButton subpointButton = new JButton("Subtract Point");
         pickerPanel.add(subpointButton);
-        this.add(pickerPanel,BorderLayout.CENTER);
         subpointButton.addActionListener(e->{
-            victimPicker.score(-1);
+            victimPicker.score(twoVictims.getFirst().getName(), -1);
         });
 
+        JButton volunteerButton = new JButton("Volunteered");
+        pickerPanel.add(volunteerButton);
+        volunteerButton.addActionListener(e -> {
+            System.out.println(victimField.getText());
 
+            if (victimPicker.inList(victimField.getText())) {
+                victimPicker.score(victimField.getText(), 5);
+            }
+        });
+
+        this.add(pickerPanel, BorderLayout.WEST);
     }
 
     private void setUpTextGUI() {
@@ -182,7 +194,6 @@ public class VictimPickerPanel extends JPanel {
 
         pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
         pickerPanel.add(button);
-        this.add(pickerPanel, BorderLayout.CENTER);
 
         button.setBounds(40, 20, 10, 10);
         JLabel label = new JLabel();
@@ -221,16 +232,23 @@ public class VictimPickerPanel extends JPanel {
 
         JButton addpointButton = new JButton("Add Point");
         pickerPanel.add(addpointButton);
-        this.add(pickerPanel,BorderLayout.CENTER);
         addpointButton.addActionListener(e->{
-            victimPicker.score(1);
+            victimPicker.score(twoVictims.getFirst().getName(), 1);
         });
 
         JButton subpointButton = new JButton("Subtract Point");
         pickerPanel.add(subpointButton);
-        this.add(pickerPanel,BorderLayout.CENTER);
         subpointButton.addActionListener(e->{
-            victimPicker.score(-1);
+            victimPicker.score(twoVictims.getFirst().getName(), -1);
+        });
+
+        JButton volunteerButton = new JButton("Volunteered");
+        pickerPanel.add(volunteerButton);
+        this.add(pickerPanel, BorderLayout.CENTER);
+        volunteerButton.addActionListener(e -> {
+            if (victimPicker.inList(victimField.getText())) {
+                victimPicker.score(victimField.getText(), 5);
+            }
         });
     }
 

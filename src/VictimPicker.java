@@ -36,19 +36,23 @@ public class VictimPicker {
         return chosenTwo;
     }
 
-    public void score(int points) {
+    public void score(String name, int points) {
         Date todaysDate = new Date();
         //First Student
-        int firstScore = pickedToday.getFirst().getScore() + points;
-        pickedToday.getFirst().setlastPicked(todaysDate);
-        pickedToday.getFirst().setScore(firstScore);
-        pickedToday.getFirst().addNumberOfPicks(1);
+        for (Victim v : victims) {
+            if (name.equals(v.getName())) {
+                int firstScore = v.getScore() + points;
+                v.setlastPicked(todaysDate);
+                v.setScore(firstScore);
+                v.addNumberOfPicks(1);
+            }
+        }
 
-        //Second Student
-        int secondScore = pickedToday.getLast().getScore() + points;
+        //Second Student Commented out since we are only doing one student for this part of the project
+        /*int secondScore = pickedToday.getLast().getScore() + points;
         pickedToday.getLast().setlastPicked(todaysDate);
         pickedToday.getLast().setScore(secondScore);
-        pickedToday.getLast().addNumberOfPicks(1);
+        pickedToday.getLast().addNumberOfPicks(1);*/
     }
 
     public void markAbsent(Victim absentVictim) {
@@ -90,4 +94,11 @@ public class VictimPicker {
         return victims;
     }
 
+    public boolean inList(String name) {
+        for (Victim v : victims) {
+            if (name.equals(v.getName()))
+                return true;
+        }
+        return false;
+    }
 }
