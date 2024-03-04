@@ -9,6 +9,7 @@ public class VictimPicker {
     private ArrayList<Victim> pickedToday;
     private ArrayList<Victim> absentToday;
 
+
     public ArrayList<Victim> chooseTwo() {
         ArrayList<Victim> chosenTwo = new ArrayList<>();
         Random rand = new Random();
@@ -71,6 +72,22 @@ public class VictimPicker {
         } catch (Exception e) {
             throw new IllegalAccessError("File not found: " + e);
         }
+    }
+
+    public void initializeVictim() {
+        absentToday = new ArrayList<>();
+        victims = new ArrayList<>();
+        pickedToday = new ArrayList<>();
+    }
+
+    public void addVictim(String name) {
+        Victim newVictim;
+        newVictim = new Victim(name, 22199);
+        victims.add(newVictim);
+    }
+
+    public ArrayList<Victim> getVictim() {
+        return victims;
     }
 
 }

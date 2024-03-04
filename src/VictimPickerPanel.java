@@ -70,8 +70,10 @@ public class VictimPickerPanel extends JPanel {
 
         if (isFile)
             setUpFileGUI();
-        else
+        else {
             setUpTextGUI();
+            victimPicker.initializeVictim();
+        }
 
         timer = new Timer(1000, e -> {
             if (timeLeftInSeconds > 0) {
@@ -126,15 +128,20 @@ public class VictimPickerPanel extends JPanel {
     private void setUpFileGUI() {
         JButton button = new JButton("Pick Victim(s)");
         JPanel pickerPanel = new JPanel();
+
         pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
         pickerPanel.add(button);
         this.add(pickerPanel, BorderLayout.CENTER);
+
         button.setBounds(40, 20, 10, 10);
+
         JLabel label = new JLabel();
         label.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel victim = new JLabel();
+
         pickerPanel.add(label);
         pickerPanel.add(victim);
+
         button.addActionListener(e -> {
             twoVictims = victimPicker.chooseTwo();
             label.setText("The victim is: ");
@@ -146,35 +153,43 @@ public class VictimPickerPanel extends JPanel {
     private void setUpTextGUI() {
         JButton button = new JButton("Pick Victim(s)");
         JPanel pickerPanel = new JPanel();
+        JTextField victimField = new JTextField(20);
+        JPanel victimPanel = new JPanel();
+        JButton victimDoneButton = new JButton("Submit Name");
+        victimPanel.setLayout(new BoxLayout(victimPanel, BoxLayout.Y_AXIS));
+
         pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
         pickerPanel.add(button);
         this.add(pickerPanel, BorderLayout.CENTER);
+
         button.setBounds(40, 20, 10, 10);
         JLabel label = new JLabel();
         label.setHorizontalAlignment(SwingConstants.CENTER);
+
         JLabel victim = new JLabel();
+
+        victimField.setMaximumSize(victimField.getPreferredSize());
+        victimDoneButton.addActionListener(e -> {
+            if (victimField.getText() == null) {
+                throw new IllegalStateException("Not enough victims to choose from.");
+            }
+            else {
+                victimPicker.addVictim(victimField.getText());
+            }
+        });
+
+        victimPanel.add(victimField);
+        victimPanel.add(victimDoneButton, BorderLayout.CENTER);
+
         pickerPanel.add(label);
         pickerPanel.add(victim);
+        pickerPanel.add(victimPanel);
+
         button.addActionListener(e -> {
             twoVictims = victimPicker.chooseTwo();
             label.setText("The victim is: ");
             victim.setText(twoVictims.getFirst().getName());
         });
-    }
-
-    public void loadListFromFile() {
-        victims = new ArrayList<>();
-        File inFile = new File("newstudentslist" + ".txt");
-        try {
-            Scanner file = new Scanner(inFile);
-            while (file.hasNextLine()) {
-                String line = file.nextLine();
-                Victim currentVictim = new Victim(line, 22199);
-                victims.add(currentVictim);
-            }
-        } catch (Exception e) {
-            throw new IllegalAccessError("File not found: " + e);
-        }
     }
 
     private void updateTimeLabel(int timeLeftInSeconds) {
