@@ -110,8 +110,22 @@ public class VictimPickerPanel extends JPanel {
     }
 
     private void setUpTextGUI() {
-        JButton button = new JButton("Text Button was here");
-        this.add(button, BorderLayout.NORTH);
+        JButton button = new JButton("Pick Victim(s)");
+        JPanel pickerPanel = new JPanel();
+        pickerPanel.setLayout(new BoxLayout(pickerPanel, BoxLayout.Y_AXIS));
+        pickerPanel.add(button);
+        this.add(pickerPanel, BorderLayout.CENTER);
+        button.setBounds(40, 20, 10, 10);
+        JLabel label = new JLabel();
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel victim = new JLabel();
+        pickerPanel.add(label);
+        pickerPanel.add(victim);
+        button.addActionListener(e -> {
+            twoVictims = victimPicker.chooseTwo();
+            label.setText("The victim is: ");
+            victim.setText(twoVictims.getFirst().getName());
+        });
     }
 
     public void loadListFromFile() {
