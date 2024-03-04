@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 public class VictimPickerPanel extends JPanel {
 
     //VictimPicker needed variables
@@ -17,7 +19,7 @@ public class VictimPickerPanel extends JPanel {
     private JFrame frame;
     private JLabel timeLabel;
     private Timer timer;
-    private int timeLeftInSeconds = 1 * 60;
+    private int timeLeftInSeconds;
 
     private boolean isFile = false;
 
@@ -58,7 +60,7 @@ public class VictimPickerPanel extends JPanel {
 
     private void displayMainPanel() {
         timeLabel = new JLabel();
-        updateTimeLabel();
+        JPanel timerPanel = new JPanel();
         // Create and configure the main panel
         this.setLayout(new BorderLayout());
 //        this.add(new JLabel("Victim: ", SwingConstants.LEFT), BorderLayout.NORTH);
@@ -74,16 +76,48 @@ public class VictimPickerPanel extends JPanel {
         timer = new Timer(1000, e -> {
             if (timeLeftInSeconds > 0) {
                 timeLeftInSeconds--;
-                updateTimeLabel();
+                updateTimeLabel(timeLeftInSeconds);
             } else {
                 timer.stop();
                 timeLabel.setText("Time's Up!");
             }
         });
 
-        this.add(timeLabel, BorderLayout.SOUTH);
+        timerPanel.add(timeLabel);
+        JButton timeButton = new JButton("Edit Timer");
+        timerPanel.add(timeButton);
+        timeButton.addActionListener(e -> {
+            JFrame timeFrame = new JFrame();
+            JPanel timePanel = new JPanel();
+            JPanel textButtonPanel = new JPanel();
+            textButtonPanel.setLayout(new BoxLayout(textButtonPanel, BoxLayout.Y_AXIS));
+            JButton doneButton = new JButton("Done");
+            timePanel.add(new JLabel("Edit Timer in Minutes"));
+            timePanel.setPreferredSize(new Dimension(200, 150));
+
+            JTextField textField = new JTextField(20);
+            textButtonPanel.add(textField);
+            textButtonPanel.add(doneButton, BorderLayout.CENTER);
+            timePanel.add(textButtonPanel);
+
+            doneButton.addActionListener(e2 -> {
+                if (textField.getText() == null) {
+                    throw new IllegalStateException("Not enough victims to choose from.");
+                }
+                else {
+                    updateTimeLabel(parseInt(textField.getText()) * 60);
+                    timer.start();
+                }
+            });
+
+            timeFrame.getContentPane().add(timePanel);
+            timeFrame.pack();
+            timeFrame.setVisible(true);
+        });
 
         // Prepare and show the frame
+        frame.add(timerPanel, BorderLayout.SOUTH);
+
         frame.pack(); // Adjusts frame size to fit its contents
         frame.setVisible(true);
         timer.start();
@@ -143,9 +177,10 @@ public class VictimPickerPanel extends JPanel {
         }
     }
 
-    private void updateTimeLabel() {
+    private void updateTimeLabel(int timeLeftInSeconds) {
+        this.timeLeftInSeconds = timeLeftInSeconds;
         int minutes = timeLeftInSeconds / 60;
         int seconds = timeLeftInSeconds % 60;
-        timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
+        timeLabel.setText(String.format(" %02d:%02d", minutes, seconds));
     }
 }
